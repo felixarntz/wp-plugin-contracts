@@ -28,7 +28,8 @@
   },
   "require": {
     "php": ">=7.0",
-    "felixarntz/contracts": "^1"
+    "felixarntz/contracts": "dev-master",
+    "felixarntz/wp-admin-notices": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.3",
