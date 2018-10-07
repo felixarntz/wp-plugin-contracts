@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Felix_Arntz\WP_Plugin_Contracts\Exception\Plugin_Loading_Exception
+ * Class Felix_Arntz\WP_Plugin_Contracts\Exception\Plugin_Not_Found_Exception
  *
  * @package Felix_Arntz\WP_Plugin_Contracts
  * @license GNU General Public License, version 2
@@ -9,14 +9,14 @@
 
 namespace Felix_Arntz\WP_Plugin_Contracts\Exception;
 
-use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Exception;
 
 /**
- * Exception thrown when loading a plugin fails.
+ * Exception thrown when a plugin cannot be found.
  *
  * @since 1.0.0
  */
-class Plugin_Loading_Exception extends Exception implements ContainerExceptionInterface {
+class Plugin_Not_Found_Exception extends Exception implements NotFoundExceptionInterface {
 
 }

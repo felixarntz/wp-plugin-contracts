@@ -28,6 +28,7 @@
   },
   "require": {
     "php": ">=7.0",
+    "psr/container": "^1",
     "felixarntz/contracts": "dev-master",
     "felixarntz/wp-admin-notices": "dev-master"
   },

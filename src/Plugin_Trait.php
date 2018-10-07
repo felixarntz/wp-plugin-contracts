@@ -9,10 +9,6 @@
 
 namespace Felix_Arntz\WP_Plugin_Contracts;
 
-use Felix_Arntz\WP_Plugin_Contracts\Exception\Plugin_Loading_Exception;
-use Felix_Arntz\WP_Admin_Notices\Admin_Notice_Factory;
-use Felix_Arntz\WP_Admin_Notices\Admin_Notice_Types;
-
 /**
  * Trait for a WordPress plugin.
  *
@@ -35,22 +31,6 @@ trait Plugin_Trait {
 	 * @var int
 	 */
 	protected $activation_scopes = 0;
-
-	/**
-	 * Main plugin instance.
-	 *
-	 * @since 1.0.0
-	 * @var Plugin|null
-	 */
-	protected static $instance = null;
-
-	/**
-	 * Exception thrown when loading the plugin failed, for later retrieval.
-	 *
-	 * @since 1.0.0
-	 * @var Plugin_Loading_Exception|null
-	 */
-	protected static $exception = null;
 
 	/**
 	 * Gets the plugin basename, which consists of the plugin directory name and main file name.
@@ -150,19 +130,9 @@ trait Plugin_Trait {
 	 * @since 1.0.0
 	 *
 	 * @return Plugin Plugin main instance.
-	 *
-	 * @throws Plugin_Loading_Exception Thrown when the plugin could not be loaded.
 	 */
 	public static function instance() : self {
-		if ( null === static::$instance ) {
-			if ( null !== static::$exception ) {
-				throw static::$exception;
-			}
-
-			throw new Plugin_Loading_Exception( 'Plugin has not been loaded yet.' );
-		}
-
-		return static::$instance;
+		return Plugin_Container::instance()->get( get_called_class() );
 	}
 
 	/**
@@ -174,28 +144,6 @@ trait Plugin_Trait {
 	 * @return bool True if the plugin main instance could be loaded, false otherwise.
 	 */
 	public static function load( string $main_file ) : bool {
-		if ( null !== static::$instance ) {
-			return true;
-		}
-
-		if ( null !== static::$exception ) {
-			return false;
-		}
-
-		try {
-			static::$instance = new static( $main_file );
-		} catch ( Plugin_Loading_Exception $e ) {
-			static::$exception = $e;
-
-			( new Admin_Notice_Factory() )
-				->create_notice( $e->getMessage(), Admin_Notice_Types::ERROR )
-				->register();
-
-			return false;
-		}
-
-		static::$instance->register();
-
-		return true;
+		return Plugin_Container::instance()->load( $main_file, get_called_class() );
 	}
 }
