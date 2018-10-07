@@ -23,5 +23,5 @@ interface Deactivatable {
 	 *
 	 * @param bool $network_wide Optional. Whether the deactivation routine should run for the entire network.
 	 */
-	public function activate( bool $network_wide = false );
+	public function deactivate( bool $network_wide = false );
 }
